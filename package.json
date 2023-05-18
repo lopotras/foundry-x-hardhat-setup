@@ -19,5 +19,8 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.3"
+  },
+  "scripts": {
+    "forge-test": "forge test --fork-url http://localhost:8545 --fork-block-number 1"
   }
 }

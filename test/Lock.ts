@@ -12,7 +12,9 @@ describe("Lock", function () {
     const ONE_GWEI = 1_000_000_000;
 
     const lockedAmount = ONE_GWEI;
-    const unlockTime = (await time.latest()) + ONE_YEAR_IN_SECS;
+    
+    const latestBlock = await ethers.provider.getBlock("latest");
+    const unlockTime = latestBlock.timestamp + ONE_YEAR_IN_SECS;
 
     // Contracts are deployed using the first signer/account by default
     const [owner, otherAccount] = await ethers.getSigners();
@@ -24,10 +26,12 @@ describe("Lock", function () {
   }
 
   describe("Deployment", function () {
-    it("Should set the right unlockTime", async function () {
-      const { lock, unlockTime } = await loadFixture(deployOneYearLockFixture);
+    it.only("Should set the right unlockTime", async function () {
+      const { lock, unlockTime, owner } = await loadFixture(deployOneYearLockFixture);
 
       expect(await lock.unlockTime()).to.equal(unlockTime);
+      console.log("lock:", lock.address);
+      console.log("unlockTime:", unlockTime.toString());
     });
 
     it("Should set the right owner", async function () {
